@@ -1,0 +1,18 @@
+qfacebook
+===================
+
+qfacebook is a Qt4 wrapper library around Facebook's graph api.
+
+building
+========
+# Clone the git repository to your system
+ $ git clone git://gitorious.org/qfacebook/qfacebook.git
+
+# Run QMake to generate makefiles
+ $ qmake INSTALL_PREFIX=/usr/local 
+
+# Compile
+ $ make
+
+# Install
+ $ make install
