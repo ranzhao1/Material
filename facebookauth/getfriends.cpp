@@ -10,6 +10,16 @@
 #include "oauth2authorizer.h"
 #include "facebookmanager.h"
 
+#include "Crypto/AbstractGroup/PairingG1Group.hpp"
+#include "Crypto/AbstractGroup/PairingGTGroup.hpp"
+#include "Crypto/CryptoFactory.hpp"
+#include "Crypto/CppHash.hpp"
+#include "Crypto/PkgServer.hpp"
+#include "Crypto/IBEPublicKey.hpp"
+#include <QByteArray>
+#include <QDebug>
+#include"Crypto/AbstractGroup/ByteElementData.hpp"
+
 
 
 QmlApplicationViewer* viewer;
@@ -41,17 +51,33 @@ void GetFriends::on_pushButton_clicked()
     QStringList strings;
     if (file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
+
         if(file.size()==0){
             ui->StoreResult->setText("Sorry! You do not have a private key!");
+        }
 
+        else{
+            ui->StoreResult->setText("You already get your IBE Private Key");
         }
-        QTextStream in(&file);
-        while (!in.atEnd()) {
-            strings += in.readLine().split(";");
-        }
+//        QTextStream in(&file);
+//        while (!in.atEnd()) {
+//            strings += in.readLine().split(";");
+//        }
     }
 
 
+}
+
+void GetFriends::on_EncryptButton_clicked()
+{
+
+    qDebug()<<"You click encrypt button"<<endl;
+
+}
+
+void GetFriends::on_DecryptButton_clicked()
+{
+    qDebug()<<"You click decrypt button"<<endl;
 }
 
 void GetFriends::on_tokenEdit_editingFinished()
@@ -119,6 +145,44 @@ void GetFriends::onFriendsReady(QStringList friends)
    // ui->listFriends->clear();
     foreach(QString buddy, friends) {
            ui->idEdit->setText(buddy);
+
+           //Fake facebookID
+           qDebug()<<"The IDDD is "<<buddy.toUtf8().constData();;
+           //    const char ID[]=buddy.toUtf8().constData();
+               //Original Message
+               const char message[]="It is good for you!";
+               Hash *hash=CryptoFactory::GetInstance().GetLibrary()->GetHashAlgorithm();
+               //Compute the message hash
+               QByteArray MessageHash=hash->ComputeHash(message).toHex();
+
+
+               qDebug()<<"Pkg Server Set Up..."<<endl;
+               PkgServer Pkg=PkgServer("Param.txt");
+
+
+
+
+
+                IBEPublicKey PublicKey(buddy.toUtf8().constData(),Pkg.getParam());
+               qDebug()<<"Get the PrivateKey from Pkg Server..."<<endl;
+               IBEPrivateKey PrivateKey=Pkg.GetPrivateKey(buddy.toUtf8().constData());
+               QByteArray data;
+               QDataStream stream(&data,QIODevice::WriteOnly);
+               stream<<PrivateKey;
+
+                   QFile file("Private_key.txt");
+                  if(file.open(QIODevice::WriteOnly | QIODevice::Text)){
+                      QTextStream out(&file);
+                      out << data;
+                  }
+
+
+                  // optional, as QFile destructor will already do it:
+                  file.close();
+
+
+
+
 //        QListWidgetItem *item = new QListWidgetItem(ui->listFriends);
 //        item->setText(buddy);
     }

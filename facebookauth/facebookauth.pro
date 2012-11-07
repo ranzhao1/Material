@@ -88,3 +88,15 @@ else:unix: LIBS += -L$$PWD/../../qfacebook-build-desktop-Desktop_Qt_4_8_1_for_GC
 
 INCLUDEPATH += $$PWD/../src
 DEPENDPATH += $$PWD/../src
+
+
+
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../qfacebook-build-desktop-Desktop_Qt_4_8_1_for_GCC__Qt_SDK__Debug/lib/release/ -ldissent
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../qfacebook-build-desktop-Desktop_Qt_4_8_1_for_GCC__Qt_SDK__Debug/lib/debug/ -ldissent
+else:symbian: LIBS += -ldissent
+else:unix: LIBS += -L$$PWD/../../qfacebook-build-desktop-Desktop_Qt_4_8_1_for_GCC__Qt_SDK__Debug/lib/ -ldissent
+
+INCLUDEPATH += $$PWD/../dissent/src
+INCLUDEPATH += $$PWD/../dissent/ext/PBCWrapper-0.8.0
+DEPENDPATH += $$PWD/../dissent/src

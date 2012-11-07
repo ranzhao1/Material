@@ -9,6 +9,12 @@
 #include "facebookmanager.h"
 #include "getfriends.h"
 
+
+
+//using namespace Dissent::Crypto;
+//using namespace Dissent::Crypto::AbstractGroup;
+
+
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
@@ -36,6 +42,5 @@ int main(int argc, char *argv[])
 
     GetFriends w;
     w.show();
-
     return app.exec();
 }

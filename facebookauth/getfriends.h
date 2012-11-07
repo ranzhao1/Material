@@ -28,6 +28,8 @@ public slots:
 private slots:
     void on_loadButton_clicked();
     void on_pushButton_clicked();
+    void on_EncryptButton_clicked();
+    void on_DecryptButton_clicked();
     void on_idEdit_editingFinished();
     void on_tokenEdit_editingFinished();
     void onFriendsReady(QStringList friends);
