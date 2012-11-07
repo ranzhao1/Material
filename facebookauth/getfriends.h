@@ -15,11 +15,14 @@ class GetFriends : public QMainWindow
 
 public:
     explicit GetFriends(QWidget *parent = 0);
+    QByteArray ReadFile(const QString& filename);
+    void WriteFile(const QString& filename,const QByteArray &data);
     ~GetFriends();
 
 private:
     Ui::GetFriends *ui;
     GetConnection *getFriends;
+    const char* ID;
 
 
 public slots:

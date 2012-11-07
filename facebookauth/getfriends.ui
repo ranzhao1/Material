@@ -14,123 +14,76 @@
    <string>GetFriends</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QLabel" name="token">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>20</y>
-      <width>51</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Token :</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="facebookid">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>50</y>
-      <width>21</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>ID :</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="tokenEdit">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>10</y>
-      <width>331</width>
-      <height>25</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="idEdit">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>40</y>
-      <width>331</width>
-      <height>25</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="loadButton">
-    <property name="geometry">
-     <rect>
-      <x>270</x>
-      <y>80</y>
-      <width>111</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>Request</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>80</y>
-      <width>141</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Check Private Key</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="StoreResult">
-    <property name="geometry">
-     <rect>
-      <x>70</x>
-      <y>150</y>
-      <width>271</width>
-      <height>81</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="EncryptButton">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>400</y>
-      <width>141</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Encrypt</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="DecryptButton">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>340</y>
-      <width>141</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Decrypt</string>
-    </property>
-   </widget>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QLabel" name="token">
+      <property name="text">
+       <string>Token :</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1" colspan="2">
+     <widget class="QLineEdit" name="tokenEdit"/>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="facebookid">
+      <property name="text">
+       <string>ID :</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1" colspan="2">
+     <widget class="QLineEdit" name="idEdit"/>
+    </item>
+    <item row="2" column="1">
+     <widget class="QPushButton" name="pushButton">
+      <property name="text">
+       <string>Check Private Key</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="2">
+     <widget class="QPushButton" name="loadButton">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Request</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1" colspan="2">
+     <widget class="QLabel" name="StoreResult">
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0" colspan="3">
+     <widget class="QTextEdit" name="inputText">
+      <property name="good" stdset="0">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0" colspan="2">
+     <widget class="QPushButton" name="EncryptButton">
+      <property name="text">
+       <string>Encrypt</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="2">
+     <widget class="QPushButton" name="DecryptButton">
+      <property name="text">
+       <string>Decrypt</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
