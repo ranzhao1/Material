@@ -22,7 +22,8 @@ public:
 private:
     Ui::GetFriends *ui;
     GetConnection *getFriends;
-    const char* ID;
+    QString UserID;
+    QByteArray OriginalMessageHash;
 
 
 public slots:

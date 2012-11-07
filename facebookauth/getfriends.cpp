@@ -73,10 +73,12 @@ void GetFriends::on_pushButton_clicked()
 void GetFriends::on_EncryptButton_clicked()
 {
     SystemParam SysParam=SystemParam(QString("System_Parameter.txt"));
-    IBEPublicKey PublicKey=IBEPublicKey(ID,SysParam);
+    IBEPublicKey PublicKey=IBEPublicKey(UserID.toUtf8().constData(),SysParam);
     Hash *hash=CryptoFactory::GetInstance().GetLibrary()->GetHashAlgorithm();
     //Compute the message hash
     QByteArray MessageHash=hash->ComputeHash(QByteArray(ui->inputText->toPlainText().toUtf8())).toHex();
+    OriginalMessageHash=MessageHash;
+    qDebug()<<"&&&&&&&&&&&Original MessageHash is "<<MessageHash<<endl;
     QByteArray Ciphertext=PublicKey.Encrypt(MessageHash);
     WriteFile("Ciphertext.txt",Ciphertext);
 
@@ -86,10 +88,20 @@ void GetFriends::on_EncryptButton_clicked()
 
 void GetFriends::on_DecryptButton_clicked()
 {
-//    IBEPrivateKey Privatekey=IBEPrivateKey(QString("Private_key.txt"));
-//    QByteArray Ciphertext=ReadFile("Ciphertext.txt");
-//    QByteArray text=Privatekey.Decrypt(Ciphertext);
-//    WriteFile("Text.txt",text);
+     IBEPrivateKey Privatekey=IBEPrivateKey(QString("Private_key.txt"));
+    QByteArray Ciphertext=ReadFile(QString("Ciphertext.txt"));
+    qDebug()<<"The size of Ciphertext is "<<strlen(Ciphertext.constData());
+    QByteArray text=Privatekey.Decrypt(Ciphertext);
+    if(QString(text.constData())==QString(OriginalMessageHash.constData())){
+        ui->StoreResult->setText("Congratulations! You get right message hash!");
+
+}
+    else{
+        ui->StoreResult->setText("Opps! You are wrong!");
+        qDebug()<<"text"<<text.constData();
+        qDebug()<<"Oringal"<<OriginalMessageHash.constData();
+    }
+    WriteFile("DecryptText.txt",text);
 
     qDebug()<<"Enter into Decrypt"<<endl;
 }
@@ -160,8 +172,9 @@ void GetFriends::onFriendsReady(QStringList friends)
     foreach(QString buddy, friends) {
            ui->idEdit->setText(buddy);
            //Fake facebookID
-           ID=buddy.toUtf8().constData();
-           qDebug()<<"The IDDD is "<<buddy.toUtf8().constData();;
+           UserID=buddy;
+
+           qDebug()<<"The IDDD is "<<UserID;;
            //    const char ID[]=buddy.toUtf8().constData();
                //Original Message
                const char message[]="It is good for you!";
@@ -179,7 +192,7 @@ void GetFriends::onFriendsReady(QStringList friends)
 
                IBEPublicKey PublicKey(buddy.toUtf8().constData(),SystemParam(QString("System_Parameter.txt")));
                qDebug()<<"Get the PrivateKey from Pkg Server..."<<endl;
-              IBEPrivateKey PrivateKey=Pkg.GetPrivateKey(buddy.toUtf8().constData());
+               IBEPrivateKey PrivateKey=Pkg.GetPrivateKey(buddy.toUtf8().constData());
                QFile file("Private_Key.txt");
                if(!file.open(QIODevice::WriteOnly)) {
                  qWarning() << "Error reading files";
@@ -197,7 +210,7 @@ void GetFriends::onFriendsReady(QStringList friends)
 
 
                   // optional, as QFile destructor will already do it:
-                  PrivateKey=IBEPrivateKey(QString("Private_Key.txt"));
+                 IBEPrivateKey Privatekey=IBEPrivateKey(QString("Private_Key.txt"));
 
 
 
@@ -205,8 +218,11 @@ void GetFriends::onFriendsReady(QStringList friends)
                qDebug()<<"Original Message: \n"<<message<<endl;
                qDebug()<<"Original Message Hash:\n"<<MessageHash.constData();
                QByteArray Ciphertext=PublicKey.Encrypt(MessageHash);
-               qDebug()<<"The ciphertext: \n"<<Ciphertext.constData()<<endl;
-               QByteArray text=PrivateKey.Decrypt(Ciphertext);
+               qDebug()<<"The before ciphertext: \n"<<Ciphertext.size()<<endl;
+               WriteFile("Ciphertext.txt",Ciphertext);
+               Ciphertext=ReadFile("Ciphertext.txt");
+               qDebug()<<"The ciphertext: \n"<<Ciphertext.toHex().constData()<<endl;
+               QByteArray text=Privatekey.Decrypt(Ciphertext);
 
 
                qDebug()<<"The length of text is "<<strlen(text.constData());
@@ -235,6 +251,7 @@ QByteArray GetFriends::ReadFile(const QString &filename)
     }
 
     data = file.readAll();
+    qDebug()<<"%%%%%%%%%%%%%%%%%%%"<<data.size();
     file.close();
     return data;
 
@@ -243,10 +260,11 @@ QByteArray GetFriends::ReadFile(const QString &filename)
 void GetFriends::WriteFile(const QString& filename, const QByteArray &data)
 {
     QFile file(filename);
-   if(file.open(QIODevice::WriteOnly | QIODevice::Text)){
-       QTextStream out(&file);
-       out << data;
-   }
-
+    qDebug()<<"Before write data "<<data;
+    qDebug()<<"The file size is "<<file.size();
+    if(!file.open(QIODevice::WriteOnly)) {
+      qWarning() << "Error (" << file.error() << ") reading file: " << filename;
+    }
+   file.write(data);
    file.close();
 }
