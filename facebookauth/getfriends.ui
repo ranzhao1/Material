@@ -15,14 +15,14 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
+    <item row="0" column="0" colspan="2">
      <widget class="QLabel" name="token">
       <property name="text">
        <string>Token :</string>
       </property>
      </widget>
     </item>
-    <item row="0" column="1" colspan="2">
+    <item row="0" column="2">
      <widget class="QLineEdit" name="tokenEdit"/>
     </item>
     <item row="1" column="0">
@@ -32,17 +32,17 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="1" colspan="2">
+    <item row="1" column="2">
      <widget class="QLineEdit" name="idEdit"/>
     </item>
-    <item row="2" column="1">
+    <item row="2" column="2">
      <widget class="QPushButton" name="pushButton">
       <property name="text">
        <string>Check Private Key</string>
       </property>
      </widget>
     </item>
-    <item row="2" column="2">
+    <item row="2" column="3">
      <widget class="QPushButton" name="loadButton">
       <property name="font">
        <font>
@@ -55,28 +55,35 @@
       </property>
      </widget>
     </item>
-    <item row="3" column="1" colspan="2">
+    <item row="3" column="2">
      <widget class="QLabel" name="StoreResult">
       <property name="text">
        <string/>
       </property>
      </widget>
     </item>
-    <item row="4" column="0" colspan="3">
+    <item row="4" column="1" colspan="3">
      <widget class="QTextEdit" name="inputText">
       <property name="good" stdset="0">
        <string/>
       </property>
      </widget>
     </item>
-    <item row="5" column="0" colspan="2">
+    <item row="5" column="0" colspan="4">
+     <widget class="QLabel" name="messageHash">
+      <property name="text">
+       <string>Message Hash:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="0" colspan="2">
      <widget class="QPushButton" name="EncryptButton">
       <property name="text">
        <string>Encrypt</string>
       </property>
      </widget>
     </item>
-    <item row="5" column="2">
+    <item row="6" column="3">
      <widget class="QPushButton" name="DecryptButton">
       <property name="text">
        <string>Decrypt</string>

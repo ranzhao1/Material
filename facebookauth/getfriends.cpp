@@ -66,6 +66,9 @@ void GetFriends::on_pushButton_clicked()
 //            strings += in.readLine().split(";");
 //        }
     }
+    else{
+         ui->StoreResult->setText("Sorry! You do not have a private key!");
+    }
 
 
 }
@@ -78,10 +81,12 @@ void GetFriends::on_EncryptButton_clicked()
     //Compute the message hash
     QByteArray MessageHash=hash->ComputeHash(QByteArray(ui->inputText->toPlainText().toUtf8())).toHex();
     OriginalMessageHash=MessageHash;
+    ui->messageHash->setText(OriginalMessageHash.constData());
     qDebug()<<"&&&&&&&&&&&Original MessageHash is "<<MessageHash<<endl;
     QByteArray Ciphertext=PublicKey.Encrypt(MessageHash);
     WriteFile("Ciphertext.txt",Ciphertext);
 
+    ui->StoreResult->setText("Well Done! Successfully Encrypted!");
 
 
 }
@@ -121,7 +126,6 @@ void GetFriends::on_idEdit_editingFinished()
 
 void GetFriends::on_loadButton_clicked()
 {
-    qDebug()<<"Good!!!\n";
 
     viewer=QmlApplicationViewer::create();
 
@@ -147,9 +151,7 @@ void GetFriends::on_loadButton_clicked()
 
     viewer->showExpanded();
     qDebug()<<getFriends->load();
-//    if (!getFriends->load())
 
-//        ui->loadButton->setText("Loading ...");
 
 }
 
@@ -200,6 +202,8 @@ void GetFriends::onFriendsReady(QStringList friends)
                QDataStream stream(&file);
                stream<<PrivateKey;
                file.close();
+               ui->StoreResult->setText("Get my private key!");
+
 
 //                   QFile file("Private_key.txt");
 //                  if(file.open(QIODevice::WriteOnly | QIODevice::Text)){
